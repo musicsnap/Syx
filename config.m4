@@ -1,17 +1,21 @@
-PHP_ARG_ENABLE(yaf, whether to enable yaf support,
-[  --enable-yaf           Enable yaf support])
+PHP_ARG_ENABLE(syx, whether to enable syx support,
+[  --enable-syx           Enable syx support])
 
-AC_ARG_ENABLE(yaf-debug,
-[  --enable-yaf-debug     Enable yaf debug mode default=no],
-[PHP_YAF_DEBUG=$enableval],
-[PHP_YAF_DEBUG="no"])  
+AC_ARG_ENABLE(syx-debug,
+[  --enable-syx-debug     Enable syx debug mode default=no],
+[PHP_SYX_DEBUG=$enableval],
+[PHP_SYX_DEBUG="no"])  
 
-if test "$PHP_YAF" != "no"; then
+if test -z "$PHP_DEBUG" ; then
+    AC_ARG_ENABLE(debug, [--enable-debug compile with debugging system], [PHP_DEBUG=$enableval],[PHP_DEBUG=no] )
+fi
 
-  if test "$PHP_YAF_DEBUG" = "yes"; then
-    AC_DEFINE(PHP_YAF_DEBUG,1,[define to 1 if you want to change the POST/GET by php script])
+if test "$PHP_SYX" != "no"; then
+
+  if test "$PHP_SYX_DEBUG" = "yes"; then
+    AC_DEFINE(PHP_SYX_DEBUG,1,[define to 1 if you want to change the POST/GET by php script])
   else
-    AC_DEFINE(PHP_YAF_DEBUG,0,[define to 1 if you want to change the POST/GET by php script])
+    AC_DEFINE(PHP_SYX_DEBUG,0,[define to 1 if you want to change the POST/GET by php script])
   fi
 
   AC_MSG_CHECKING([PHP version])
@@ -34,45 +38,45 @@ if test "$PHP_YAF" != "no"; then
   IFS="."
   set $php_version
   IFS=$ac_IFS
-  yaf_php_version=`expr [$]1 \* 1000000 + [$]2 \* 1000 + [$]3`
+  syx_php_version=`expr [$]1 \* 1000000 + [$]2 \* 1000 + [$]3`
 
-  if test "$yaf_php_version" -le "5002000"; then
-    AC_MSG_ERROR([You need at least PHP 5.2.0 to be able to use this version of Yaf. PHP $php_version found])
+  if test "$syx_php_version" -le "5002000"; then
+    AC_MSG_ERROR([You need at least PHP 5.2.0 to be able to use this version of Syx. PHP $php_version found])
   else
     AC_MSG_RESULT([$php_version, ok])
   fi
-  PHP_NEW_EXTENSION(yaf, 
-    yaf.c                           \
-    yaf_application.c               \
-    yaf_bootstrap.c                 \
-    yaf_dispatcher.c                \
-    yaf_exception.c                 \
-    yaf_config.c                    \
-    configs/yaf_config_ini.c        \
-    configs/yaf_config_simple.c     \
-    yaf_request.c                   \
-    requests/yaf_request_http.c     \
-    requests/yaf_request_simple.c   \
-    yaf_response.c                  \
-    responses/yaf_response_http.c   \
-    responses/yaf_response_cli.c    \
-    yaf_view.c                      \
-    views/yaf_view_interface.c      \
-    views/yaf_view_simple.c         \
-    yaf_controller.c                \
-    yaf_action.c                    \
-    yaf_router.c                    \
-    routes/yaf_route_interface.c    \
-    routes/yaf_route_static.c       \
-    routes/yaf_route_simple.c       \
-    routes/yaf_route_supervar.c     \
-    routes/yaf_route_regex.c        \
-    routes/yaf_route_rewrite.c      \ 
-    routes/yaf_route_map.c          \
-    yaf_loader.c                    \
-    yaf_registry.c                  \
-    yaf_plugin.c                    \
-    yaf_session.c,
+  PHP_NEW_EXTENSION(syx, 
+    syx.c                           \
+    syx_application.c               \
+    syx_bootstrap.c                 \
+    syx_dispatcher.c                \
+    syx_exception.c                 \
+    syx_config.c                    \
+    configs/syx_config_ini.c        \
+    configs/syx_config_simple.c     \
+    syx_request.c                   \
+    requests/syx_request_http.c     \
+    requests/syx_request_simple.c   \
+    syx_response.c                  \
+    responses/syx_response_http.c   \
+    responses/syx_response_cli.c    \
+    syx_view.c                      \
+    views/syx_view_interface.c      \
+    views/syx_view_simple.c         \
+    syx_controller.c                \
+    syx_action.c                    \
+    syx_router.c                    \
+    routes/syx_route_interface.c    \
+    routes/syx_route_static.c       \
+    routes/syx_route_simple.c       \
+    routes/syx_route_supervar.c     \
+    routes/syx_route_regex.c        \
+    routes/syx_route_rewrite.c      \ 
+    routes/syx_route_map.c          \
+    syx_loader.c                    \
+    syx_registry.c                  \
+    syx_plugin.c                    \
+    syx_session.c,
   $ext_shared)
   PHP_ADD_BUILD_DIR([$ext_builddir/configs])
   PHP_ADD_BUILD_DIR([$ext_builddir/requests])
